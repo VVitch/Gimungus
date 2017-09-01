@@ -44,8 +44,6 @@ public class PlayerInputController : MonoBehaviour {
 		playerUnit.weapon.Aim (Camera.main.ScreenToWorldPoint (Input.mousePosition));
 		staminaBar.transform.localScale = new Vector3(playerUnit.stamina / 100f, 1, 1); 
 
-		Debug.Log (hpIndex);
-		Debug.Log (playerUnit.health -1);
 		if (hpIndex > playerUnit.health - 1) {
 			healthBar [hpIndex].transform.position = new Vector3(-1000,-1000,-1000);
 			hpIndex--;

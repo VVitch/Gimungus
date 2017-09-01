@@ -5,21 +5,12 @@ using UnityEngine;
 public class Unit : MonoBehaviour {
 	public bool dead = false;
 	public Weapon weapon;
-	public float speed, dashMultiplier;
-	public float stamina;
-	public float staminaRecharge;
+	public float speed, dashMultiplier, stamina, staminaRecharge, dashCost, attackCost;
 	public int health;
+	bool invincible, dashLocked = false;
+	bool canTouchAttack = true;
 
-	bool invincible;
-
-	public float dashCost;
-	public float attackCost;
-
-
-	bool dashLocked;
 	void Start(){
-		dashLocked = false;
-		invincible = false;
 
 	}
 
@@ -33,6 +24,15 @@ public class Unit : MonoBehaviour {
 		if (!dead) {
 			float step = speed * Time.deltaTime;
 			transform.position = Vector3.MoveTowards (transform.position, position, step);
+		}
+	}
+
+	public void MoveAway(Vector3 position){
+		if (!dead) {
+			Vector3 direction = (transform.position + position) * 2;
+			float step = speed * Time.deltaTime;
+
+			transform.position = Vector3.MoveTowards (transform.position, direction, step);
 		}
 	}
 
@@ -95,5 +95,21 @@ public class Unit : MonoBehaviour {
 		if (stamina > 100) {
 			stamina = 100;
 		}
+	}
+
+	public void TouchAttack(Unit u){
+		if (canTouchAttack && !dead && Vector3.Distance(transform.position, u.transform.position) < 1) {
+			u.TakeDamage ();
+			Debug.Log ("dealt damage");
+
+			StartCoroutine (TouchAttackCooldown ());
+		}
+	}
+
+	IEnumerator TouchAttackCooldown(){
+		canTouchAttack = false;
+		yield return new WaitForSeconds(1);
+		canTouchAttack = true;
+
 	}
 }
