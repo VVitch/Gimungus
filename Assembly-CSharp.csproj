@@ -46,12 +46,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Blade.cs" />
-     <Compile Include="Assets\GruntController.cs" />
-     <Compile Include="Assets\PlayerInputController.cs" />
+     <Compile Include="Assets\Scripts\Blade.cs" />
+     <Compile Include="Assets\Scripts\GruntController.cs" />
+     <Compile Include="Assets\Scripts\PlayerInputController.cs" />
      <Compile Include="Assets\Scripts\Sword.cs" />
+     <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
-     <Compile Include="Assets\Unit.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -6,7 +6,7 @@ public class Sword : Weapon {
 	// Use this for initialization
 	void Start () {
 		base.Start ();
-		speed = 600;
+		speed = 700;
 	}
 
 	// Update is called once per frame

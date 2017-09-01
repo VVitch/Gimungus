@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
-	bool dead = false;
+	public bool dead = false;
 	public Weapon weapon;
-	public float speed;
-	public float dashMultiplier;
+	public float speed, dashMultiplier;
 	public float stamina;
+	public float staminaRecharge;
 	public int health;
+
+	bool invincible;
+
+	public float dashCost;
+	public float attackCost;
 
 
 	bool dashLocked;
 	void Start(){
 		dashLocked = false;
+		invincible = false;
+
 	}
 
 	public void Move(float x, float y){
 		if (!dead) {
-			Debug.Log (x * speed);
 			transform.Translate (x * speed * Time.deltaTime, y * speed * Time.deltaTime, 0);
 		}
 	}
@@ -30,9 +36,9 @@ public class Unit : MonoBehaviour {
 		}
 	}
 
-
 	public bool Dash(){
-		if (!dashLocked) {
+		if (!dashLocked && stamina > dashCost) {
+			stamina -= dashCost;
 			dashLocked = true;
 			speed = speed * 10;
 			StartCoroutine (DashRoutine ());
@@ -55,5 +61,39 @@ public class Unit : MonoBehaviour {
 	void Die(){
 		GetComponent<SpriteRenderer> ().color = Color.red;
 		dead = true;
+	}
+
+	public void AttackWithWeapon(){
+		if (weapon.IsRested () && stamina > attackCost) {
+			weapon.StartSwing ();
+			stamina -= attackCost;
+		}
+
+	}
+
+	public void TakeDamage(){
+		if (!dead && !invincible) {
+			health--;
+			if (health < 1) {
+				Die ();
+			} else {
+				StartCoroutine (InvisiTimer ());
+			}
+		}
+	}
+
+	IEnumerator InvisiTimer(){
+		invincible = true;
+		yield return new WaitForSeconds(.5f);
+		invincible = false;
+	}
+
+	void Update(){
+		if(weapon != null && weapon.IsRested()){
+			stamina += staminaRecharge * Time.deltaTime;
+		}
+		if (stamina > 100) {
+			stamina = 100;
+		}
 	}
 }

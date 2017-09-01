@@ -8,9 +8,14 @@ public class PlayerInputController : MonoBehaviour {
 	public bool aim_enabled = true;
 	bool dashLock = false;
 
+	public GameObject staminaBar;
+
+	public List<GameObject> healthBar;
+	int hpIndex;
+
 	// Use this for initialization
 	void Start () {
-		
+		hpIndex = 2;
 	}
 	
 	// Update is called once per frame
@@ -29,18 +34,25 @@ public class PlayerInputController : MonoBehaviour {
 
 
 		playerUnit.Move (hMovement, vMovement);
-		mainCamera.transform.Translate (hMovement * playerUnit.speed * Time.deltaTime, vMovement * playerUnit.speed*Time.deltaTime, 0);
-
+		//mainCamera.transform.Translate (hMovement * playerUnit.speed * Time.deltaTime, vMovement * playerUnit.speed*Time.deltaTime, 0);
+		mainCamera.transform.position = new Vector3(playerUnit.transform.position.x, playerUnit.transform.position.y, mainCamera.transform.position.z);
 		//Weapon aiming
 		if (Input.GetAxisRaw ("Jump") != 0) {
 			Attack ();
 		}
+
 		playerUnit.weapon.Aim (Camera.main.ScreenToWorldPoint (Input.mousePosition));
+		staminaBar.transform.localScale = new Vector3(playerUnit.stamina / 100f, 1, 1); 
 
+		Debug.Log (hpIndex);
+		Debug.Log (playerUnit.health -1);
+		if (hpIndex > playerUnit.health - 1) {
+			healthBar [hpIndex].transform.position = new Vector3(-1000,-1000,-1000);
+			hpIndex--;
+		}
 	}
-
-
+		
 	void Attack(){
-		playerUnit.weapon.StartSwing ();
+		playerUnit.AttackWithWeapon();
 	}
 }
