@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{250306EB-A41E-1FE8-806D-0ACD2A4FF87C}</ProjectGuid>
+    <ProjectGuid>{E0DEFEB5-1803-C453-FDB3-9F5FC1C882EF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -46,6 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Blade.cs" />
+     <Compile Include="Assets\GruntController.cs" />
      <Compile Include="Assets\PlayerInputController.cs" />
      <Compile Include="Assets\Scripts\Sword.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />

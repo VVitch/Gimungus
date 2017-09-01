@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sword : Weapon {
+public class Blade : MonoBehaviour {
+
 	// Use this for initialization
 	void Start () {
-		base.Start ();
-		speed = 600;
+		
 	}
-
+	
 	// Update is called once per frame
 	void Update () {
-		base.Update ();
+		
+	}
+
+	void OnTriggerEnter(Collider col){
+		Debug.Log ("wow");
 	}
 }

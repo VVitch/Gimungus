@@ -6,8 +6,8 @@ public class PlayerInputController : MonoBehaviour {
 	public Unit playerUnit;
 	public Camera mainCamera;
 	public bool aim_enabled = true;
+	bool dashLock = false;
 
-	float speed = 0.1f;
 	// Use this for initialization
 	void Start () {
 		
@@ -15,11 +15,21 @@ public class PlayerInputController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Dash
+		if (Input.GetAxisRaw ("Dash") != 0 && !dashLock) {
+			playerUnit.Dash ();
+			dashLock = true;
+		} else if(Input.GetAxisRaw("Dash") == 0){
+			dashLock = false;
+		}
+
 		//Movement
-		float hMovement = Input.GetAxis("Horizontal") * speed;
-		float vMovement = Input.GetAxis ("Vertical") * speed;
-		playerUnit.transform.Translate (hMovement, vMovement, 0);
-		mainCamera.transform.Translate (hMovement, vMovement, 0);
+		float hMovement = Input.GetAxis ("Horizontal");
+		float vMovement = Input.GetAxis ("Vertical");
+
+
+		playerUnit.Move (hMovement, vMovement);
+		mainCamera.transform.Translate (hMovement * playerUnit.speed * Time.deltaTime, vMovement * playerUnit.speed*Time.deltaTime, 0);
 
 		//Weapon aiming
 		if (Input.GetAxisRaw ("Jump") != 0) {
@@ -29,8 +39,8 @@ public class PlayerInputController : MonoBehaviour {
 
 	}
 
+
 	void Attack(){
-		aim_enabled = false;
 		playerUnit.weapon.StartSwing ();
 	}
 }

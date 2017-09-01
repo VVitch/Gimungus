@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour {
-
+	public BoxCollider2D bc;
 	protected float speed;
 	protected bool rested;
 	protected float swingTracker = 0;
 	protected int direction = 1;
+
+	protected float lethalbuffer;
 	// Use this for initialization
 	protected void Start () {
 		rested = true;
+		bc.enabled = false;
 	}
 
 	public bool IsRested(){
@@ -28,20 +31,32 @@ public class Weapon : MonoBehaviour {
 
 	virtual protected void AttackCheck(){
 		if (!rested) {
-			float swingTemp = Time.deltaTime * speed * direction;
-			transform.RotateAround (transform.position, new Vector3 (0, 0, 1), swingTemp);
+			if (swingTracker > 90) {
+				bc.enabled = true;
+			}
+			if (swingTracker > 270) {
+				bc.enabled = false;
+			}
+
+			float swingTemp = Time.deltaTime * speed;
+			swingTemp *= (.1f + Mathf.Pow(Mathf.Abs(Mathf.Sin (0.5f * (swingTracker*Mathf.PI / 180f))),1));
+
+			transform.RotateAround (transform.position, new Vector3 (0, 0, 1), swingTemp*direction);
 			swingTracker += swingTemp;
-			if (Mathf.Abs(swingTracker) > 360) {
+			if (Mathf.Abs (swingTracker) > 360) {
 				rested = true;
 				swingTracker = 0;
 				direction = -direction;
 			}
+		} else {
+			bc.enabled = false;
 		}
 	}
 
 	public void Aim(Vector3 target){
 		if (IsRested()) {
-			transform.rotation = Quaternion.LookRotation (Vector3.forward, target - transform.position);
+			Quaternion nRotation = Quaternion.LookRotation (Vector3.forward, target - transform.position);
+			transform.rotation = Quaternion.Slerp (transform.rotation, nRotation, Time.deltaTime * 5);
 		}
 	}
 
@@ -50,3 +65,4 @@ public class Weapon : MonoBehaviour {
 
 	}
 }
+	
