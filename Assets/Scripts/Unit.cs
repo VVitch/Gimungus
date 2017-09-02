@@ -29,10 +29,7 @@ public class Unit : MonoBehaviour {
 
 	public void MoveAway(Vector3 position){
 		if (!dead) {
-			Vector3 direction = (transform.position + position) * 2;
-			float step = speed * Time.deltaTime;
-
-			transform.position = Vector3.MoveTowards (transform.position, direction, step);
+			transform.position = Vector2.MoveTowards(transform.position, position, -1*speed*Time.deltaTime);
 		}
 	}
 
@@ -48,17 +45,19 @@ public class Unit : MonoBehaviour {
 	}
 
 	IEnumerator DashRoutine(){
-		yield return new WaitForSeconds (.05f);
+		yield return new WaitForSeconds (.08f);
 		speed = speed / 10;
 		dashLocked = false;
 	}
 
 	void OnTriggerEnter2D(Collider2D other) 
 	{ 
-		Die ();
+		if (other.gameObject.tag == "damage source") {
+			TakeDamage ();
+		}
 	}
 
-	void Die(){
+	public void Die(){
 		GetComponent<SpriteRenderer> ().color = Color.red;
 		dead = true;
 	}
@@ -70,7 +69,6 @@ public class Unit : MonoBehaviour {
 		}
 
 	}
-
 	public void TakeDamage(){
 		if (!dead && !invincible) {
 			health--;
@@ -100,8 +98,6 @@ public class Unit : MonoBehaviour {
 	public void TouchAttack(Unit u){
 		if (canTouchAttack && !dead && Vector3.Distance(transform.position, u.transform.position) < 1) {
 			u.TakeDamage ();
-			Debug.Log ("dealt damage");
-
 			StartCoroutine (TouchAttackCooldown ());
 		}
 	}

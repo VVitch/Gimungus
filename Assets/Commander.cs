@@ -7,14 +7,9 @@ public class Commander : MonoBehaviour {
 	public List<Unit> squad;
 	public List<Vector3> positions;
 	Unit playerUnit;
-	bool playerSeen, positionsAssigned, playerSurrounded, campEstablished = false;
+	bool playerSeen, positionsAssigned, playerSurrounded, campEstablished, disabled = false;
 	Vector3 playerOriginalPosition;
-	public int surroundRange;
-
-	//Routine Order
-	//Establish Camp
-	//Surround Player (maintaining distance)
-	//Charge Player
+	public int surroundRange, viewDistance, campDistance, commanderDistance;
 
 	// Use this for initialization
 	void Start () {
@@ -24,37 +19,53 @@ public class Commander : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		KeepCommanderSafe ();
-
-		if (!playerSeen) {
-			CheckForPlayer ();
-		} else if (!campEstablished) {
-			EstablishCamp ();
-		}else if (!positionsAssigned) {
-			AssignPositions ();
-		} else if (!playerSurrounded) {
-			SurroundPlayer ();
-		} else {
-			ChargePlayer ();
+		if (!disabled) {
+			bool ntr = NeedToRetreat ();
+			if (ntr) {
+				Retreat ();
+			} else if (!playerSeen) {
+				CheckForPlayer ();
+			} else if (!campEstablished) {
+				EstablishCamp ();
+			} else if (!positionsAssigned) {
+				AssignPositions ();
+			} else if (!playerSurrounded) {
+				SurroundPlayer ();
+			} else {
+				ChargePlayer ();
+			}
+			if (!ntr) {
+				KeepCommanderSafe ();
+			}
 		}
-	}
 
+	}
+	bool NeedToRetreat(){
+		bool unit_alive = false;
+		foreach(Unit u in squad){
+			if (!u.dead) {
+				unit_alive = true;
+			}
+		}
+		Debug.Log(!unit_alive || commanderUnit.dead);
+		return !unit_alive || commanderUnit.dead;
+	}
 	void KeepCommanderSafe(){
-		if (Vector3.Distance (playerUnit.transform.position, commanderUnit.transform.position) < 15) {
+		if (Vector3.Distance (playerUnit.transform.position, commanderUnit.transform.position) < commanderDistance) {
 			commanderUnit.MoveAway (playerUnit.transform.position);
+		} else if (Vector3.Distance (playerUnit.transform.position, commanderUnit.transform.position) > campDistance) {
+			commanderUnit.MoveToward (playerUnit.transform.position);
 		}
 	}
 
 	void CheckForPlayer(){
-		if(Vector3.Distance(playerUnit.transform.position, commanderUnit.transform.position) < 50){
-			Debug.Log ("Player Seen!");
+		if(Vector3.Distance(playerUnit.transform.position, commanderUnit.transform.position) < viewDistance){
 			playerSeen = true;
 		}
 	}
 
 	void AssignPositions(){
 		playerOriginalPosition = playerUnit.transform.position;
-		//20*Mathf(cos((degrees * 2*PI / 180f))
 		float degreePortion = 360f/squad.Count;
 		float offset = Random.Range (-360, 360);
 		for (float a = 0; a <= 360; a += degreePortion) {
@@ -63,21 +74,23 @@ public class Commander : MonoBehaviour {
 			positions.Add (new Vector3 (xComp, yComp, 0));
 		}
 		positionsAssigned = true;
-		Debug.Log ("positions assigned");
 	}
 	void SurroundPlayer(){
 		int positionCount = 0;
 		for (int i = 0; i < squad.Count; i++) {
 			Vector3 goal = positions [i] - (playerOriginalPosition - playerUnit.transform.position);
 			squad [i].MoveToward (goal);
-			if (squad[i].dead || Vector3.Distance (squad [i].transform.position, goal) < 2) {
+			if (squad [i].dead) {
+				positionCount++;
+				squad.RemoveAt (i);
+				i--;
+			}else if(Vector3.Distance (squad [i].transform.position, goal) < 2) {
 				positionCount++;
 			}
 		}
 		if (positionCount == squad.Count) {
 			playerSurrounded = true;
 		}
-		Debug.Log ((positions [0] + (playerUnit.transform.position - playerOriginalPosition)));
 	}
 	void ChargePlayer(){
 		for (int i = 0; i < squad.Count; i++) {
@@ -87,18 +100,30 @@ public class Commander : MonoBehaviour {
 	}
 
 	void EstablishCamp(){
-		for (int i = 0; i < squad.Count; i++) {
-			//squad [i].MoveToward (playerUnit.transform.position);
-		}
+
 		commanderUnit.MoveToward (playerUnit.transform.position);
 
-		if (Vector3.Distance (commanderUnit.transform.position, playerUnit.transform.position)<25) {
+		if (Vector3.Distance (commanderUnit.transform.position, playerUnit.transform.position)<campDistance) {
 			campEstablished = true;
 			while (commanderUnit.transform.childCount > 0) {
 				foreach (Transform child in commanderUnit.transform) {
-					child.parent = null;
+					child.parent = this.gameObject.transform;
 				}
 			}
+		}
+	}
+	void Retreat(){
+		commanderUnit.MoveAway (playerUnit.transform.position);
+		for (int i = 0; i < squad.Count; i++) {
+			squad [i].MoveAway (playerUnit.transform.position);
+			if (Vector3.Distance (squad [i].transform.position, playerUnit.transform.position) > 100) {
+				squad [i].Die ();
+				squad.RemoveAt (i);
+			}
+		}
+		if (Vector3.Distance (commanderUnit.transform.position, playerUnit.transform.position) > 100) {
+			commanderUnit.Die ();
+			disabled = true;
 		}
 	}
 		

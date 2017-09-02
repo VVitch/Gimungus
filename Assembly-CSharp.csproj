@@ -46,10 +46,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Archer.cs" />
+     <Compile Include="Assets\Arrow.cs" />
      <Compile Include="Assets\Commander.cs" />
+     <Compile Include="Assets\FireBall.cs" />
      <Compile Include="Assets\Scripts\Blade.cs" />
      <Compile Include="Assets\Scripts\Grunt.cs" />
      <Compile Include="Assets\Scripts\PlayerInputController.cs" />
+     <Compile Include="Assets\Scripts\Projectile.cs" />
      <Compile Include="Assets\Scripts\Sword.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
