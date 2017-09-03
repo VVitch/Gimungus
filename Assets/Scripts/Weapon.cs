@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour {
 	public BoxCollider2D bc;
-	protected float speed;
+	public float speed, staminaCost;
 	protected bool rested;
 	protected float swingTracker = 0;
 	protected int direction = 1;
-
 	protected float lethalbuffer;
 	// Use this for initialization
 	protected void Start () {
 		rested = true;
-		bc.enabled = false;
+		if(bc!=null){bc.enabled = false;}
 	}
 
 	public bool IsRested(){
@@ -32,10 +31,10 @@ public class Weapon : MonoBehaviour {
 	virtual protected void AttackCheck(){
 		if (!rested) {
 			if (swingTracker > 90) {
-				bc.enabled = true;
+				if(bc!=null){bc.enabled = true;}
 			}
 			if (swingTracker > 270) {
-				bc.enabled = false;
+				if(bc!=null){bc.enabled = false;}
 			}
 
 			float swingTemp = Time.deltaTime * speed;
@@ -49,7 +48,7 @@ public class Weapon : MonoBehaviour {
 				direction = -direction;
 			}
 		} else {
-			bc.enabled = false;
+			if(bc!=null){bc.enabled = false;}
 		}
 	}
 

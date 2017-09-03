@@ -1,15 +1,17 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Commander.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Unit.cs">
     <Files>
-      <File FileName="Assets/Scripts/Unit.cs" Line="65" Column="33" />
-      <File FileName="Assets/Scripts/Weapon.cs" Line="57" Column="19" />
-      <File FileName="Assets/Scripts/PlayerInputController.cs" Line="39" Column="18" />
-      <File FileName="Assets/Scripts/Sword.cs" Line="15" Column="3" />
-      <File FileName="Assets/Arrow.cs" Line="15" Column="24" />
-      <File FileName="Assets/Archer.cs" Line="25" Column="24" />
-      <File FileName="Assets/Commander.cs" Line="127" Column="4" />
-      <File FileName="Assets/Scripts/Projectile.cs" Line="13" Column="3" NotebookId="1" />
+      <File FileName="Assets/Scripts/Unit.cs" Line="112" Column="3" />
+      <File FileName="Assets/Scripts/PlayerInputController.cs" Line="30" Column="3" />
+      <File FileName="Assets/Arrow.cs" Line="16" Column="25" />
+      <File FileName="Assets/Archer.cs" Line="28" Column="22" />
+      <File FileName="Assets/Commander.cs" Line="49" Column="5" />
+      <File FileName="Assets/Sword.cs" Line="14" Column="18" />
+      <File FileName="Assets/Scripts/Grunt.cs" Line="8" Column="18" />
+      <File FileName="Assets/BareHands.cs" Line="13" Column="18" />
+      <File FileName="Assets/Scripts/Weapon.cs" Line="34" Column="36" />
+      <File FileName="Assets/Bow.cs" Line="6" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -25,7 +25,7 @@ public class Archer : MonoBehaviour {
 		}else if (!shooting){
 			StartCoroutine(FireVolley());
 		}
-		//Shoot (playerUnit.transform.position);
+		unit.AimWeapon (playerUnit.transform.position);
 	}
 
 	IEnumerator FireVolley(){
@@ -33,7 +33,7 @@ public class Archer : MonoBehaviour {
 		int shots = Random.Range (1, 5);
 		for (int i = 0; i < shots; i++) {
 			Shoot (playerUnit.transform.position);
-			yield return new WaitForSeconds(0.2f);
+			yield return new WaitForSeconds(0.3f);
 		}
 		choosePosition = false;
 		inPosition = false;
@@ -53,12 +53,14 @@ public class Archer : MonoBehaviour {
 	}
 		
 	void Shoot(Vector3 position){
-		Arrow arrow = GameObject.Instantiate (ArrowPrefab, unit.transform.position, Quaternion.identity).GetComponent<Arrow>();
-		Quaternion nRotation = Quaternion.LookRotation (Vector3.forward, position - unit.transform.position);
-		arrow.myRotation = nRotation;
-		Vector3 pos = (position - unit.transform.position);
-		pos.Normalize ();
-		arrow.SetVelocity (pos);
+		if (!unit.dead) {
+			Arrow arrow = GameObject.Instantiate (ArrowPrefab, unit.transform.position, Quaternion.identity).GetComponent<Arrow> ();
+			Quaternion nRotation = Quaternion.LookRotation (Vector3.forward, position - unit.transform.position);
+			arrow.myRotation = nRotation;
+			Vector3 pos = (position - unit.transform.position);
+			pos.Normalize ();
+			arrow.SetVelocity (pos);
+		}
 	}
 
 	void MoveToPosition(){

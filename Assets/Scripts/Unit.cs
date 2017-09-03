@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour {
 	public bool dead = false;
-	public Weapon weapon;
-	public float speed, dashMultiplier, stamina, staminaRecharge, dashCost, attackCost;
+	public Weapon weapon, bareHands;
+	public float speed, dashMultiplier, stamina, staminaMax, staminaRecharge, dashCost;
 	public int health;
 	bool invincible, dashLocked = false;
 	bool canTouchAttack = true;
 
 	void Start(){
-
+		staminaMax = stamina;
 	}
 
 	public void Move(float x, float y){
@@ -33,11 +33,14 @@ public class Unit : MonoBehaviour {
 		}
 	}
 
-	public bool Dash(){
-		if (!dashLocked && stamina > dashCost) {
+	public bool Dash(bool free){
+		if (free) {
+			StartCoroutine (DashRoutine());
+			return true;
+		}
+		else if (!dashLocked && stamina > dashCost) {
 			stamina -= dashCost;
 			dashLocked = true;
-			speed = speed * 10;
 			StartCoroutine (DashRoutine ());
 			return true;
 		}
@@ -45,6 +48,7 @@ public class Unit : MonoBehaviour {
 	}
 
 	IEnumerator DashRoutine(){
+		speed = speed * 10;
 		yield return new WaitForSeconds (.08f);
 		speed = speed / 10;
 		dashLocked = false;
@@ -54,18 +58,22 @@ public class Unit : MonoBehaviour {
 	{ 
 		if (other.gameObject.tag == "damage source") {
 			TakeDamage ();
+		} else if (other.gameObject.tag == "weapon") {
+			other.transform.parent = this.transform;
 		}
 	}
 
 	public void Die(){
 		GetComponent<SpriteRenderer> ().color = Color.red;
 		dead = true;
+		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
+		foreach(BoxCollider2D bc in myColliders) bc.enabled = false;
 	}
 
 	public void AttackWithWeapon(){
-		if (weapon.IsRested () && stamina > attackCost) {
+		if (weapon != null && weapon.IsRested () && stamina > weapon.staminaCost) {
 			weapon.StartSwing ();
-			stamina -= attackCost;
+			stamina -= weapon.staminaCost;
 		}
 
 	}
@@ -82,16 +90,17 @@ public class Unit : MonoBehaviour {
 
 	IEnumerator InvisiTimer(){
 		invincible = true;
-		yield return new WaitForSeconds(.5f);
+		yield return new WaitForSeconds(.005f);
 		invincible = false;
 	}
 
 	void Update(){
+		transform.rotation = Quaternion.identity;
 		if(weapon != null && weapon.IsRested()){
 			stamina += staminaRecharge * Time.deltaTime;
 		}
-		if (stamina > 100) {
-			stamina = 100;
+		if (stamina > staminaMax) {
+			stamina = staminaMax;
 		}
 	}
 
@@ -108,4 +117,19 @@ public class Unit : MonoBehaviour {
 		canTouchAttack = true;
 
 	}
+
+	public void AimWeapon(Vector3 position){
+		if (weapon != null && !dead) {
+			weapon.Aim (position);
+		}
+	}
+
+	public void DropWeapon(){
+		if (weapon != null) {
+			weapon.tag = "Untagged";
+			weapon.transform.parent = null;
+			weapon = null;
+		}
+	}
+
 }

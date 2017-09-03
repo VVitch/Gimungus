@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Grunt : MonoBehaviour {
 	public Unit unit;
+	public int strikingDistance;
 	Unit playerUnit;
 	// Use this for initialization
 	void Start () {
@@ -12,8 +13,14 @@ public class Grunt : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		unit.MoveToward (playerUnit.transform.position);
-		unit.TouchAttack (playerUnit);
+		if (!unit.dead) {
+			unit.weapon.Aim (playerUnit.transform.position);
+			if (Vector3.Distance (unit.transform.position, playerUnit.transform.position) < strikingDistance) {
+				unit.AttackWithWeapon ();
+			} else {
+				unit.MoveToward (playerUnit.transform.position);
+			}
+		}
 	}
 		
 

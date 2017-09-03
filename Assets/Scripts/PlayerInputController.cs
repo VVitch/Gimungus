@@ -22,7 +22,7 @@ public class PlayerInputController : MonoBehaviour {
 	void Update () {
 		//Dash
 		if (Input.GetAxisRaw ("Dash") != 0 && !dashLock) {
-			playerUnit.Dash ();
+			playerUnit.Dash (false);
 			dashLock = true;
 		} else if(Input.GetAxisRaw("Dash") == 0){
 			dashLock = false;
@@ -31,17 +31,16 @@ public class PlayerInputController : MonoBehaviour {
 		//Movement
 		float hMovement = Input.GetAxis ("Horizontal");
 		float vMovement = Input.GetAxis ("Vertical");
-
-
 		playerUnit.Move (hMovement, vMovement);
-		//mainCamera.transform.Translate (hMovement * playerUnit.speed * Time.deltaTime, vMovement * playerUnit.speed*Time.deltaTime, 0);
 		mainCamera.transform.position = new Vector3(playerUnit.transform.position.x, playerUnit.transform.position.y, mainCamera.transform.position.z);
+			
 		//Weapon aiming
-		if (Input.GetAxisRaw ("Jump") != 0) {
+		if (Input.GetAxisRaw ("Attack") != 0) {
 			Attack ();
 		}
 
-		playerUnit.weapon.Aim (Camera.main.ScreenToWorldPoint (Input.mousePosition));
+		//playerUnit.weapon.Aim (Camera.main.ScreenToWorldPoint (Input.mousePosition));
+		playerUnit.AimWeapon(Camera.main.ScreenToWorldPoint (Input.mousePosition));
 		staminaBar.transform.localScale = new Vector3(playerUnit.stamina / 100f, 1, 1); 
 
 		if (hpIndex > playerUnit.health - 1) {

@@ -12,7 +12,9 @@ public class Arrow : Projectile {
 	}
 	void OnTriggerEnter2D(Collider2D other) 
 	{ 
-		velocity = -velocity;
+		if (other.gameObject.tag == "damage source") {
+			velocity = -velocity;
+		}
 	}
 
 	IEnumerator Fire(){
