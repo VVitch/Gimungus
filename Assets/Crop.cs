@@ -19,11 +19,11 @@ public class Crop : MonoBehaviour {
 		if(!isCut){
 			isCut = true;
 			//spawn a bushell
-			GameObject newBushel = GameObject.Instantiate(bushel, transform.position, Quaternion.identity);
 			//switch to cut sprite
 			GetComponent<SpriteRenderer>().sprite = cutSprite;
-			newBushel.GetComponent<SpriteRenderer> ().sprite = bushelSprite;
-			StartCoroutine (FlingBushel(newBushel, flingTime));
+
+				GameObject newBushel = GameObject.Instantiate(bushel, transform.position, Quaternion.identity);
+				StartCoroutine (FlingBushel(newBushel, flingTime));
 		}
 	}
 

@@ -5,8 +5,9 @@ using UnityEngine;
 public class Archer : MonoBehaviour {
 	public GameObject ArrowPrefab;
 	public Unit unit;
+	public int seeingDistance;
 	Unit playerUnit;
-	bool choosePosition, inPosition, shooting = false;
+	bool choosePosition, inPosition, shooting, playerSeen = false;
 	Vector3 position;
 	// Use this for initialization
 	void Start () {
@@ -17,14 +18,23 @@ public class Archer : MonoBehaviour {
 	//repeat
 	
 	// Update is called once per frame
+	void LateUpdate(){
+			if(Vector3.Distance(playerUnit.transform.position, unit.transform.position) < seeingDistance){
+				playerSeen = true;
+			}
+	}
+
 	void Update () {
-		if (!choosePosition) {
-			ChoosePosition ();
-		}else if(!inPosition){
-			MoveToPosition();
-		}else if (!shooting){
-			StartCoroutine(FireVolley());
-		}
+
+		if(playerSeen){
+			if (!choosePosition) {
+				ChoosePosition ();
+			}else if(!inPosition){
+				MoveToPosition();
+			}else if (!shooting){
+				StartCoroutine(FireVolley());
+			}
+		}	
 		unit.AimWeapon (playerUnit.transform.position);
 	}
 

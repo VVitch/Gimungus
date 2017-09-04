@@ -13,6 +13,7 @@ public class Arrow : Projectile {
 	void OnTriggerEnter2D(Collider2D other) 
 	{ 
 		if (other.gameObject.tag == "damage source") {
+			transform.Rotate(0,0,Mathf.PI);
 			velocity = -velocity;
 		}
 	}

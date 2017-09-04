@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerInputController : MonoBehaviour {
 	public Unit playerUnit;
@@ -46,6 +47,10 @@ public class PlayerInputController : MonoBehaviour {
 		if (hpIndex > playerUnit.health - 1) {
 			healthBar [hpIndex].transform.position = new Vector3(-1000,-1000,-1000);
 			hpIndex--;
+		}
+
+		if(playerUnit.dead){
+			  SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	}
 		

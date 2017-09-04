@@ -36,6 +36,7 @@ public class Unit : MonoBehaviour {
 	public bool Dash(bool free){
 		if (free) {
 			StartCoroutine (DashRoutine());
+			StartCoroutine(InvisiTimer());
 			return true;
 		}
 		else if (!dashLocked && stamina > dashCost) {
@@ -90,6 +91,7 @@ public class Unit : MonoBehaviour {
 
 	IEnumerator InvisiTimer(){
 		invincible = true;
+		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
 		yield return new WaitForSeconds(.005f);
 		invincible = false;
 	}
