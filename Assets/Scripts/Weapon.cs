@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour {
 	protected float swingTracker = 0;
 	protected int direction = 1;
 	protected float lethalbuffer;
+	protected Vector3 myTarget;
 	// Use this for initialization
 	protected void Start () {
 		rested = true;
@@ -53,6 +54,7 @@ public class Weapon : MonoBehaviour {
 	}
 
 	public void Aim(Vector3 target){
+		myTarget = target;
 		if (IsRested()) {
 			Quaternion nRotation = Quaternion.LookRotation (Vector3.forward, target - transform.position);
 			transform.rotation = Quaternion.Slerp (transform.rotation, nRotation, Time.deltaTime * 5);

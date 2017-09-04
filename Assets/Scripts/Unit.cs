@@ -71,7 +71,7 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void AttackWithWeapon(){
-		if (weapon != null && weapon.IsRested () && stamina > weapon.staminaCost) {
+		if (!dead && weapon != null && weapon.IsRested () && stamina > weapon.staminaCost) {
 			weapon.StartSwing ();
 			stamina -= weapon.staminaCost;
 		}

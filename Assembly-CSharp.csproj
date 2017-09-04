@@ -52,7 +52,10 @@
      <Compile Include="Assets\BareHands.cs" />
      <Compile Include="Assets\Bow.cs" />
      <Compile Include="Assets\Commander.cs" />
+     <Compile Include="Assets\Crop.cs" />
      <Compile Include="Assets\FireBall.cs" />
+     <Compile Include="Assets\House.cs" />
+     <Compile Include="Assets\Interior.cs" />
      <Compile Include="Assets\Scripts\Blade.cs" />
      <Compile Include="Assets\Scripts\GSword.cs" />
      <Compile Include="Assets\Scripts\Grunt.cs" />
@@ -60,6 +63,7 @@
      <Compile Include="Assets\Scripts\Projectile.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
+     <Compile Include="Assets\Spear.cs" />
      <Compile Include="Assets\Sword.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
