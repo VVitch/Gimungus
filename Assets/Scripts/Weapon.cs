@@ -50,11 +50,16 @@ public class Weapon : MonoBehaviour {
 			if (Mathf.Abs (swingTracker) > 360) {
 				rested = true;
 				swingTracker = 0;
-				direction = -direction;
+				ChangeDirections ();
 			}
 		} else {
 			if(bc!=null){bc.enabled = false;}
 		}
+	}
+
+	virtual public void ChangeDirections(){
+		direction = -direction;
+
 	}
 
 	virtual public void Aim(Vector3 target){
