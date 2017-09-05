@@ -1,0 +1,36 @@
+Initialize engine version: 5.6.1f1 (2860b30f0b54)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: AMD Radeon R7 200 Series (ID=0x6819)
+    Vendor:   ATI
+    VRAM:     2029 MB
+    Driver:   22.19.162.4
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.187 seconds
+Platform assembly: C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Samuel\Desktop\Gimungus\Gimongous_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.563784 ms
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.942674 ms
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 1083.
+Total: 0.545785 ms (FindLiveObjects: 0.106401 ms CreateObjectMapping: 0.032242 ms MarkObjects: 0.397761 ms  DeleteObjects: 0.008207 ms)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1514 -> priority: 1 
+  Thread -> id: 25cc -> priority: 1 

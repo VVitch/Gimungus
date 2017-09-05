@@ -9,11 +9,15 @@ public class Weapon : MonoBehaviour {
 	protected float swingTracker = 0;
 	protected int direction = 1;
 	protected float lethalbuffer;
+	public float aimSpeed;
 	protected Vector3 myTarget;
 	// Use this for initialization
 	protected void Start () {
 		rested = true;
 		if(bc!=null){bc.enabled = false;}
+		if(aimSpeed == 0){
+			aimSpeed = 5;
+		}
 	}
 
 	public bool IsRested(){
@@ -53,14 +57,13 @@ public class Weapon : MonoBehaviour {
 		}
 	}
 
-	public void Aim(Vector3 target){
+	virtual public void Aim(Vector3 target){
 		myTarget = target;
 		if (IsRested()) {
 			Quaternion nRotation = Quaternion.LookRotation (Vector3.forward, target - transform.position);
-			transform.rotation = Quaternion.Slerp (transform.rotation, nRotation, Time.deltaTime * 5);
+			transform.rotation = Quaternion.Slerp (transform.rotation, nRotation, Time.deltaTime * aimSpeed);
 		}
 	}
-
 
 	virtual public void Strike(){
 

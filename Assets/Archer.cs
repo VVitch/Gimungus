@@ -5,7 +5,7 @@ using UnityEngine;
 public class Archer : MonoBehaviour {
 	public GameObject ArrowPrefab;
 	public Unit unit;
-	public int seeingDistance;
+	public int seeingDistance, attackRangeMin, attackRangeMax;
 	Unit playerUnit;
 	bool choosePosition, inPosition, shooting, playerSeen = false;
 	Vector3 position;
@@ -56,8 +56,8 @@ public class Archer : MonoBehaviour {
 		if(negX < 0){negX = -1;}else {negX = 1;}
 		if(negY < 0){negY = -1;}else {negY = 1;}
 
-		float xComp = playerUnit.transform.position.x + Random.Range (15,20) * negX; 
-		float yComp = playerUnit.transform.position.y + Random.Range(15,20) * negY;
+		float xComp = playerUnit.transform.position.x + Random.Range (attackRangeMin,attackRangeMax) * negX; 
+		float yComp = playerUnit.transform.position.y + Random.Range(attackRangeMin,attackRangeMax) * negY;
 		position = new Vector3 (xComp, yComp, 0);
 		choosePosition = true;
 	}
