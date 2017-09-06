@@ -11,13 +11,13 @@ public class BloodSplatter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-					// transform.RotateAround(transform.position, Vector3.forward, 200 * Time.deltaTime);
+					transform.RotateAround(transform.position, Vector3.forward, 200 * Time.deltaTime);
 
 	}
 
 	IEnumerator FreezeBloodSplatter(){
 		float t = 0;
-		gameObject.GetComponent<ParticleSystem>().playbackSpeed = 5.5f;
+		gameObject.GetComponent<ParticleSystem>().playbackSpeed = 6f;
 
  		while(t < time){
 			t+= Time.deltaTime;

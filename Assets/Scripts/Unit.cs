@@ -79,7 +79,7 @@ public class Unit : MonoBehaviour {
 			Vector3 u = UBP (colliderPosition, transform.position);
 			GameObject b = Instantiate (blood, transform.position, Quaternion.Euler (new Vector3 (Random.Range (0, 360), 90, 0)));
 			//b.transform.rotation = Quaternion.LookRotation((u + b.transform.position) * -1);
-
+			//Destroy(this, 0.5f);
 		}
 
 	}
@@ -110,12 +110,14 @@ public class Unit : MonoBehaviour {
 	}
 
 	void Update(){
-		transform.rotation = Quaternion.identity;
-		if(weapon != null && weapon.IsRested()){
-			stamina += staminaRecharge * Time.deltaTime;
-		}
-		if (stamina > staminaMax) {
-			stamina = staminaMax;
+		if(!dead){
+			transform.rotation = Quaternion.identity;
+			if(weapon != null && weapon.IsRested()){
+				stamina += staminaRecharge * Time.deltaTime;
+			}
+			if (stamina > staminaMax) {
+				stamina = staminaMax;
+			}
 		}
 	}
 
