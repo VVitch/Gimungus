@@ -12,6 +12,8 @@ public class Unit : MonoBehaviour {
 	bool invincible, dashLocked = false;
 	bool canTouchAttack = true;
 	public Weapon weapon;
+	Vector3 colliderPosition;
+		
 	void Start(){
 		staminaMax = stamina;
 	}
@@ -60,6 +62,8 @@ public class Unit : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) 
 	{ 
 		if (other.gameObject.tag == "damage source") {
+			colliderPosition = other.transform.position;
+				
 			TakeDamage ();
 		} else if (other.gameObject.tag == "weapon") {
 			other.transform.parent = this.transform;
@@ -72,7 +76,10 @@ public class Unit : MonoBehaviour {
 		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
 		foreach(BoxCollider2D bc in myColliders) bc.enabled = false;
 		if(blood!=null){
-			Instantiate(blood, transform.position, Quaternion.Euler(new Vector3(Random.Range(0,360), 90, 0)));
+			Vector3 u = UBP (colliderPosition, transform.position);
+			GameObject b = Instantiate (blood, transform.position, Quaternion.Euler (new Vector3 (Random.Range (0, 360), 90, 0)));
+			//b.transform.rotation = Quaternion.LookRotation((u + b.transform.position) * -1);
+
 		}
 
 	}
@@ -138,6 +145,10 @@ public class Unit : MonoBehaviour {
 			weapon.transform.parent = null;
 			weapon = null;
 		}
+	}
+
+	Vector3 UBP(Vector3 p1, Vector3 p2){
+		return (1f / (p1 - p2).magnitude) * (p1 - p2);
 	}
 
 }
