@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
+	public GameObject blood;
+
+
 	public bool dead = false;
-	public Weapon weapon, bareHands;
 	public float speed, dashMultiplier, stamina, staminaMax, staminaRecharge, dashCost;
 	public int health;
 	bool invincible, dashLocked = false;
 	bool canTouchAttack = true;
-
+	public Weapon weapon;
 	void Start(){
 		staminaMax = stamina;
 	}
@@ -69,6 +71,10 @@ public class Unit : MonoBehaviour {
 		dead = true;
 		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
 		foreach(BoxCollider2D bc in myColliders) bc.enabled = false;
+		if(blood!=null){
+			Instantiate(blood, transform.position, Quaternion.Euler(new Vector3(Random.Range(0,360), 90, 0)));
+		}
+
 	}
 
 	public void AttackWithWeapon(){
