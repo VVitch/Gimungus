@@ -101,6 +101,17 @@ public class Unit : MonoBehaviour {
 			}
 		}
 	}
+
+	public void Stop(){
+		rb.velocity = new Vector2(0, 0);
+	}
+	public void SetVelocity(Vector2 vel){
+		rb.velocity = vel;
+	}
+	public Vector2 GetVelocity(){
+		return rb.velocity;
+	}
+
 	IEnumerator InvisiTimer(){
 		invincible = true;
 		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();

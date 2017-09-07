@@ -40,6 +40,7 @@ public class Archer : MonoBehaviour {
 
 	IEnumerator FireVolley(){
 		shooting = true;
+		unit.Stop ();
 		int shots = Random.Range (1, 5);
 		for (int i = 0; i < shots; i++) {
 			Shoot (playerUnit.transform.position);

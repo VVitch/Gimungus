@@ -21,6 +21,7 @@ public class Grunt : MonoBehaviour {
 				spottedPlayer = true;
 			}if (Vector3.Distance (unit.transform.position, playerUnit.transform.position) < strikingDistance) {
 				unit.AttackWithWeapon ();
+				unit.Stop ();
 			}else if(spottedPlayer){
 				unit.MoveToward (playerUnit.transform.position);
 			}
