@@ -19,12 +19,9 @@ public class Grunt : MonoBehaviour {
 			unit.weapon.Aim (playerUnit.transform.position);
 			if(Vector3.Distance(playerUnit.transform.position, unit.transform.position) < seeingDistance){
 				spottedPlayer = true;
-			}
-
-
-			if (Vector3.Distance (unit.transform.position, playerUnit.transform.position) < strikingDistance) {
+			}if (Vector3.Distance (unit.transform.position, playerUnit.transform.position) < strikingDistance) {
 				unit.AttackWithWeapon ();
-			} else if(spottedPlayer){
+			}else if(spottedPlayer){
 				unit.MoveToward (playerUnit.transform.position);
 			}
 		}

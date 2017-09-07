@@ -13,27 +13,28 @@ public class Unit : MonoBehaviour {
 	bool canTouchAttack = true;
 	public Weapon weapon;
 	Vector3 colliderPosition;
+	Rigidbody2D rb;
 		
 	void Start(){
+		rb = gameObject.GetComponent<Rigidbody2D> ();
 		staminaMax = stamina;
 	}
 
 	public void Move(float x, float y){
 		if (!dead) {
-			transform.Translate (x * speed * Time.deltaTime, y * speed * Time.deltaTime, 0);
+			rb.velocity = new Vector2(x*speed, y*speed);
 		}
 	}
 
 	public void MoveToward(Vector3 position){
 		if (!dead) {
-			float step = speed * Time.deltaTime;
-			transform.position = Vector3.MoveTowards (transform.position, position, step);
+			rb.velocity = UBP(position, transform.position) * speed;
 		}
 	}
 
 	public void MoveAway(Vector3 position){
 		if (!dead) {
-			transform.position = Vector2.MoveTowards(transform.position, position, -1*speed*Time.deltaTime);
+			rb.velocity = UBP(transform.position, position) * speed;
 		}
 	}
 
@@ -71,6 +72,7 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void Die(){
+		rb.velocity = new Vector2 (0, 0);
 		GetComponent<SpriteRenderer> ().color = Color.red;
 		dead = true;
 		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
@@ -78,8 +80,6 @@ public class Unit : MonoBehaviour {
 		if(blood!=null){
 			Vector3 u = UBP (colliderPosition, transform.position);
 			GameObject b = Instantiate (blood, transform.position, Quaternion.Euler (new Vector3 (Random.Range (0, 360), 90, 0)));
-			//b.transform.rotation = Quaternion.LookRotation((u + b.transform.position) * -1);
-			//Destroy(this, 0.5f);
 		}
 
 	}
@@ -101,7 +101,6 @@ public class Unit : MonoBehaviour {
 			}
 		}
 	}
-
 	IEnumerator InvisiTimer(){
 		invincible = true;
 		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
@@ -120,7 +119,6 @@ public class Unit : MonoBehaviour {
 			}
 		}
 	}
-
 	public void TouchAttack(Unit u){
 		if (canTouchAttack && !dead && Vector3.Distance(transform.position, u.transform.position) < 1) {
 			u.TakeDamage ();
