@@ -23,7 +23,7 @@ public class PlayerInputController : MonoBehaviour {
 	void Update () {
 		//Dash
 		if (Input.GetAxisRaw ("Dash") != 0 && !dashLock) {
-			playerUnit.Dash (false);
+			playerUnit.Dash ();
 			dashLock = true;
 		} else if(Input.GetAxisRaw("Dash") == 0){
 			dashLock = false;

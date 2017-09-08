@@ -5,16 +5,26 @@ using UnityEngine;
 public class Arrow : Projectile {
 	public Quaternion myRotation;
 	Unit playerUnit;
+	Rigidbody2D rb;
+	int collisionTracker;
 
 	public void Awake(){
 		playerUnit = GameObject.Find ("PlayerInputController").GetComponent<PlayerInputController> ().playerUnit;
 		StartCoroutine (Fire());
+		rb = GetComponent<Rigidbody2D>();
 	}
 	void OnTriggerEnter2D(Collider2D other) 
 	{ 
+
 		if (other.gameObject.tag == "damage source") {
 			transform.Rotate(0,0,Mathf.PI);
-			velocity = -velocity;
+			rb.velocity = -rb.velocity;
+			collisionTracker = collisionTracker + 1;
+			Debug.Log (collisionTracker);
+			if (collisionTracker > 10) {
+				//rb.velocity = new Vector2 (Random.Range (-1, 2), Random.Range (-1, 2)) * speed;
+				Destroy (this.gameObject);
+			}
 		}
 	}
 
@@ -28,12 +38,12 @@ public class Arrow : Projectile {
 	}
 
 	override public void SetVelocity(Vector3 vel){
-		velocity = vel * speed;
+		rb.velocity = vel * speed;
 	}
 
 	override public void Update(){
 		transform.rotation = Quaternion.identity;
-		transform.Translate (velocity * Time.deltaTime);
+		//transform.Translate (velocity * Time.deltaTime);
 		transform.rotation = myRotation;
 		if (Vector3.Distance (playerUnit.transform.position, transform.position) > 100) {
 			Destroy (this.gameObject);

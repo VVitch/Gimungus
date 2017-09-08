@@ -35,10 +35,10 @@ public class Weapon : MonoBehaviour {
 
 	virtual protected void AttackCheck(){
 		if (!rested) {
-			if (swingTracker > 90) {
+			if (swingTracker > 80) {
 				if(bc!=null){bc.enabled = true;}
 			}
-			if (swingTracker > 270) {
+			if (swingTracker > 280) {
 				if(bc!=null){bc.enabled = false;}
 			}
 

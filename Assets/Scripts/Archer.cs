@@ -7,8 +7,10 @@ public class Archer : MonoBehaviour {
 	public Unit unit;
 	public int seeingDistance, attackRangeMin, attackRangeMax;
 	Unit playerUnit;
-	bool choosePosition, inPosition, shooting, playerSeen = false;
+	bool choosePosition, inPosition, shooting, playerSeen, choosing = false;
 	Vector3 position;
+	public float repositionRestTime;
+
 	// Use this for initialization
 	void Start () {
 		playerUnit = GameObject.Find ("PlayerInputController").GetComponent<PlayerInputController> ().playerUnit;
@@ -25,13 +27,12 @@ public class Archer : MonoBehaviour {
 	}
 
 	void Update () {
-
 		if(playerSeen){
-			if (!choosePosition) {
-				ChoosePosition ();
-			}else if(!inPosition){
+			if (!choosePosition && !choosing) {
+				StartCoroutine(ChoosePosition ());
+			}else if(!inPosition && !choosing){
 				MoveToPosition();
-			}else if (!shooting){
+			}else if (!shooting && !choosing){
 				StartCoroutine(FireVolley());
 			}
 		}	
@@ -41,7 +42,7 @@ public class Archer : MonoBehaviour {
 	IEnumerator FireVolley(){
 		shooting = true;
 		unit.Stop ();
-		int shots = Random.Range (1, 5);
+		int shots = Random.Range (1, 1);
 		for (int i = 0; i < shots; i++) {
 			Shoot (playerUnit.transform.position);
 			yield return new WaitForSeconds(0.3f);
@@ -51,7 +52,9 @@ public class Archer : MonoBehaviour {
 		shooting = false;
 	}
 
-	void ChoosePosition(){
+	IEnumerator ChoosePosition(){
+		choosing = true;
+		yield return new WaitForSeconds (repositionRestTime);
 		int negX = Random.Range (-1, 1);
 		int negY = Random.Range (-1, 1);
 		if(negX < 0){negX = -1;}else {negX = 1;}
@@ -60,6 +63,7 @@ public class Archer : MonoBehaviour {
 		float xComp = playerUnit.transform.position.x + Random.Range (attackRangeMin,attackRangeMax) * negX; 
 		float yComp = playerUnit.transform.position.y + Random.Range(attackRangeMin,attackRangeMax) * negY;
 		position = new Vector3 (xComp, yComp, 0);
+		choosing = false;
 		choosePosition = true;
 	}
 		

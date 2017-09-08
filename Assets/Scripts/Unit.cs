@@ -38,13 +38,8 @@ public class Unit : MonoBehaviour {
 		}
 	}
 
-	public bool Dash(bool free){
-		if (free) {
-			StartCoroutine (DashRoutine());
-			StartCoroutine(InvisiTimer());
-			return true;
-		}
-		else if (!dashLocked && stamina > dashCost) {
+	public bool Dash(){
+	   if (!dashLocked && stamina > dashCost) {
 			stamina -= dashCost;
 			dashLocked = true;
 			StartCoroutine (DashRoutine ());
@@ -55,7 +50,7 @@ public class Unit : MonoBehaviour {
 
 	IEnumerator DashRoutine(){
 		speed = speed * 10;
-		yield return new WaitForSeconds (.08f);
+		yield return new WaitForSeconds (.04f);
 		speed = speed / 10;
 		dashLocked = false;
 	}
