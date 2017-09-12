@@ -5,12 +5,12 @@ using UnityEngine;
 public class BareHands : Weapon {
 
 	// Use this for initialization
-	void Start () {
+	new void Start () {
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	new void Update () {
 		
 	}
 }

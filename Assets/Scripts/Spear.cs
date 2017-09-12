@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Spear : Weapon {
 	public float timeToStab;
-	int thrust = 1;
 	public float range;
 	Vector3 frozenTarget;
 	bool hasft,stabComplete = false;
 
-	bool stabOutComplete = false;
 
 	// Use this for initialization
 	void Start () {

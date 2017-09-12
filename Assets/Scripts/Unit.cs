@@ -5,7 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour {
 	public GameObject blood;
 
-
+	NPC npc;
 	public bool dead = false;
 	public float speed, dashMultiplier, stamina, staminaMax, staminaRecharge, dashCost;
 	public int health;
@@ -59,22 +59,29 @@ public class Unit : MonoBehaviour {
 	{ 
 		if (other.gameObject.tag == "damage source") {
 			colliderPosition = other.transform.position;
-				
 			TakeDamage ();
 		} else if (other.gameObject.tag == "weapon") {
 			other.transform.parent = this.transform;
+		} else if (other.gameObject.tag == "npc") {
+			npc = other.GetComponent<NPC> ();
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D other){
+		if (other.gameObject.tag == "npc") {
+			npc = null;
 		}
 	}
 
 	public void Die(){
-		rb.velocity = new Vector2 (0, 0);
+		Stop ();
 		GetComponent<SpriteRenderer> ().color = Color.red;
 		dead = true;
 		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
 		foreach(BoxCollider2D bc in myColliders) bc.enabled = false;
 		if(blood!=null){
 			Vector3 u = UBP (colliderPosition, transform.position);
-			GameObject b = Instantiate (blood, transform.position, Quaternion.Euler (new Vector3 (Random.Range (0, 360), 90, 0)));
+			Instantiate (blood, transform.position, Quaternion.Euler (new Vector3 (Random.Range (0, 360), 90, 0)));
 		}
 
 	}
@@ -109,7 +116,6 @@ public class Unit : MonoBehaviour {
 
 	IEnumerator InvisiTimer(){
 		invincible = true;
-		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
 		yield return new WaitForSeconds(.005f);
 		invincible = false;
 	}
@@ -136,7 +142,6 @@ public class Unit : MonoBehaviour {
 		canTouchAttack = false;
 		yield return new WaitForSeconds(1);
 		canTouchAttack = true;
-
 	}
 
 	public void AimWeapon(Vector3 position){
@@ -157,4 +162,7 @@ public class Unit : MonoBehaviour {
 		return (1f / (p1 - p2).magnitude) * (p1 - p2);
 	}
 
+	public NPC GetNPC(){
+		return npc;
+	}
 }

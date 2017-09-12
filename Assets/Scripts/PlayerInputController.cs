@@ -9,6 +9,7 @@ public class PlayerInputController : MonoBehaviour {
 	public bool aim_enabled = true;
 	bool dashLock = false;
 
+
 	public GameObject staminaBar;
 
 	public List<GameObject> healthBar;
@@ -40,6 +41,12 @@ public class PlayerInputController : MonoBehaviour {
 			Attack ();
 		}
 
+		//action
+		if (Input.GetAxisRaw ("Action") != 0) {
+			TalkToNPC ();
+			Debug.Log ("wow");
+		}
+
 		//playerUnit.weapon.Aim (Camera.main.ScreenToWorldPoint (Input.mousePosition));
 		playerUnit.AimWeapon(Camera.main.ScreenToWorldPoint (Input.mousePosition));
 		staminaBar.transform.localScale = new Vector3(playerUnit.stamina / 100f, 1, 1); 
@@ -56,5 +63,14 @@ public class PlayerInputController : MonoBehaviour {
 		
 	void Attack(){
 		playerUnit.AttackWithWeapon();
+	}
+
+	void TalkToNPC(){
+		if (playerUnit.GetNPC () != null) {
+			playerUnit.GetNPC ().ActivateDialogue ();
+			Debug.Log ("yes npc");
+		} else {
+			Debug.Log ("no npc");
+		}
 	}
 }

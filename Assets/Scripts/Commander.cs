@@ -7,7 +7,7 @@ public class Commander : MonoBehaviour {
 	public List<Unit> squad;
 	public List<Vector3> positions;
 	Unit playerUnit;
-	bool playerSeen, positionsAssigned, playerSurrounded, campEstablished, disabled = false;
+	bool playerSeen, positionsAssigned, playerSurrounded, campEstablished = false;
 	Vector3 playerOriginalPosition;
 	public int surroundRange, viewDistance, campDistance, commanderDistance, strikeDistance;
 
@@ -21,7 +21,6 @@ public class Commander : MonoBehaviour {
 	void Update () {
 		bool ntr = NeedToRetreat ();
 		if (ntr) {
-			Debug.Log ("retreating");
 			Retreat ();
 		} else if (!playerSeen) {
 			CheckForPlayer ();
@@ -75,7 +74,7 @@ public class Commander : MonoBehaviour {
 		} else if (Vector3.Distance (playerUnit.transform.position, commanderUnit.transform.position) > campDistance) {
 			commanderUnit.MoveToward (playerUnit.transform.position);
 		} else {
-			commanderUnit.Stop ();
+			commanderUnit.SetVelocity (playerUnit.GetVelocity());
 		}
 	}
 
@@ -103,9 +102,9 @@ public class Commander : MonoBehaviour {
 				positionCount++;
 				squad.RemoveAt (i);
 				i--;
-			} else if (Vector3.Distance (squad [i].transform.position, goal) < 2) {
+			} else if (Vector3.Distance (squad [i].transform.position, goal) < 2 &&!squad[i].dead) {
 				positionCount++;
-				squad [i].Stop ();
+				squad [i].SetVelocity (playerUnit.GetVelocity());
 			} else {
 				squad [i].MoveToward (goal);
 			}
@@ -119,7 +118,7 @@ public class Commander : MonoBehaviour {
 		for (int i = 0; i < squad.Count; i++) {
 			if (Mathf.Abs(Vector3.Distance (squad [i].transform.position, playerUnit.transform.position) - strikeDistance) < .8f) {
 				squad [i].AttackWithWeapon ();
-				squad [i].Stop ();
+				squad [i].SetVelocity (playerUnit.GetVelocity());
 			} else{
 				squad [i].MoveToward (playerUnit.transform.position);
 			}
@@ -127,12 +126,12 @@ public class Commander : MonoBehaviour {
 	}
 
 	void EstablishCamp(){
-		Debug.Log ("camping");
 		commanderUnit.MoveToward (playerUnit.transform.position);
 		MoveSquadWithCommander ();
 
 		for (int i = 0; i < squad.Count; i++) {
 			if (squad [i].dead) {
+				squad [i].Stop ();
 				squad [i].gameObject.transform.parent = null;
 				squad.RemoveAt (i);
 			}
@@ -160,7 +159,6 @@ public class Commander : MonoBehaviour {
 		}
 		if (Vector3.Distance (commanderUnit.transform.position, playerUnit.transform.position) > 100) {
 			commanderUnit.Die ();
-			disabled = true;
 		}
 	}
 		

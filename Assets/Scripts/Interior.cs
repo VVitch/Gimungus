@@ -13,7 +13,6 @@ public class Interior : MonoBehaviour {
 	public SpriteRenderer background3;
 
 	Collider2D player;
-	bool safteyFade = false;
 	// Use this for initialization
 	void Start () {
 		
