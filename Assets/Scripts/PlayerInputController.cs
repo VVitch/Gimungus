@@ -7,8 +7,7 @@ public class PlayerInputController : MonoBehaviour {
 	public Unit playerUnit;
 	public Camera mainCamera;
 	public bool aim_enabled = true;
-	bool dashLock = false;
-
+	bool dashLock, disabled, canAttack = false;
 
 	public GameObject staminaBar;
 
@@ -23,41 +22,46 @@ public class PlayerInputController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//Dash
-		if (Input.GetAxisRaw ("Dash") != 0 && !dashLock) {
-			playerUnit.Dash ();
-			dashLock = true;
-		} else if(Input.GetAxisRaw("Dash") == 0){
-			dashLock = false;
-		}
+		if (!disabled) {
+			if (Input.GetAxisRaw ("Dash") != 0 && !dashLock) {
+				playerUnit.Dash ();
+				dashLock = true;
+			} else if (Input.GetAxisRaw ("Dash") == 0) {
+				dashLock = false;
+			}
 
-		//Movement
-		float hMovement = Input.GetAxis ("Horizontal");
-		float vMovement = Input.GetAxis ("Vertical");
-		playerUnit.Move (hMovement, vMovement);
-		mainCamera.transform.position = new Vector3(playerUnit.transform.position.x, playerUnit.transform.position.y, mainCamera.transform.position.z);
+			//Movement
+			float hMovement = Input.GetAxis ("Horizontal");
+			float vMovement = Input.GetAxis ("Vertical");
+			playerUnit.Move (hMovement, vMovement);
+			mainCamera.transform.position = new Vector3 (playerUnit.transform.position.x, playerUnit.transform.position.y, mainCamera.transform.position.z);
 			
-		//Weapon aiming
-		if (Input.GetAxisRaw ("Attack") != 0) {
-			Attack ();
-		}
+			//Weapon aiming
+			if (Input.GetAxisRaw ("Attack") != 0 && canAttack) {
+				Attack ();
+				canAttack = false;
+			} else if (Input.GetAxisRaw ("Attack") == 0) {
+				canAttack = true;
+			}
 
-		//action
-		if (Input.GetAxisRaw ("Action") != 0) {
-			TalkToNPC ();
-			Debug.Log ("wow");
-		}
+			//action
+			if (Input.GetAxisRaw ("Action") != 0) {
+				TalkToNPC ();
+				Debug.Log ("wow");
+			}
 
-		//playerUnit.weapon.Aim (Camera.main.ScreenToWorldPoint (Input.mousePosition));
-		playerUnit.AimWeapon(Camera.main.ScreenToWorldPoint (Input.mousePosition));
-		staminaBar.transform.localScale = new Vector3(playerUnit.stamina / 100f, 1, 1); 
+			//playerUnit.weapon.Aim (Camera.main.ScreenToWorldPoint (Input.mousePosition));
+			playerUnit.AimWeapon (Camera.main.ScreenToWorldPoint (Input.mousePosition));
+			staminaBar.transform.localScale = new Vector3 (playerUnit.stamina / 100f, 1, 1); 
 
-		if (hpIndex > playerUnit.health - 1) {
-			healthBar [hpIndex].transform.position = new Vector3(-1000,-1000,-1000);
-			hpIndex--;
-		}
+			if (hpIndex > playerUnit.health - 1) {
+				healthBar [hpIndex].transform.position = new Vector3 (-1000, -1000, -1000);
+				hpIndex--;
+			}
 
-		if(playerUnit.dead){
-			  SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			if (playerUnit.dead) {
+				SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+			}
 		}
 	}
 		
@@ -72,5 +76,14 @@ public class PlayerInputController : MonoBehaviour {
 		} else {
 			Debug.Log ("no npc");
 		}
+	}
+
+	public void Disable(){
+		disabled = true;
+		playerUnit.SetVelocity (new Vector2 (0, 0));
+	}
+	public void Enable(){
+		canAttack = false;
+		disabled = false;
 	}
 }

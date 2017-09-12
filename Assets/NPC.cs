@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NPC : MonoBehaviour {
+	public bool walkCycle;
+	public List<GameObject> checkPoints;
 	public GameObject speechBubble;
 	public Unit unit;
 	public float floatTimer, floatSpeed;
 	float t = 0;
-	int dialogueIndex = 0;
-
-	string name;
-
+	public int dialogueIndex = 0;
+	public string name;
 	public List<string> openers;
 	public List<string> responses;
 	public List<string> closers;
-
+	DialoguePanel dp;
 
 	public virtual void SpecialAction(){
 
@@ -37,6 +37,8 @@ public class NPC : MonoBehaviour {
 	void Start () {
 		MakeBubbleDisappear ();
 		speechBubble.GetComponent<Rigidbody2D> ().velocity = new Vector2(0,1) * floatSpeed;
+		dp = GameObject.Find ("DialoguePanel").GetComponent<DialoguePanel> ();
+
 	}
 	// Update is called once per frame
 	void Update () {
@@ -66,9 +68,14 @@ public class NPC : MonoBehaviour {
 	}
 
 	public void ActivateDialogue(){
-		DialoguePanel dp = GameObject.Find ("DialoguePanel").GetComponent<DialoguePanel> ();
 		dp.npc = this;
-		dp.MakePanelAppear ();
-		dp.MakeButtonsAppear ();
+		List<string> myResponses = new List<string>();
+		dp.MakeButtonsAppear (myResponses);
+		dp.Activate("");
+	}
+
+	void FillButtonOptions(){
+		
+
 	}
 }
