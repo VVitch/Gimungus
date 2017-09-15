@@ -46,16 +46,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\BloodSplatter.cs" />
-     <Compile Include="Assets\DialoguePanel.cs" />
-     <Compile Include="Assets\DontGoThroughThings.cs" />
-     <Compile Include="Assets\NPC.cs" />
-     <Compile Include="Assets\ScreenFader.cs" />
+     <Compile Include="Assets\Resources\DialoguePanel.cs" />
+     <Compile Include="Assets\Resources\DontGoThroughThings.cs" />
      <Compile Include="Assets\Scripts\Archer.cs" />
      <Compile Include="Assets\Scripts\Arrow.cs" />
      <Compile Include="Assets\Scripts\Axe.cs" />
      <Compile Include="Assets\Scripts\BareHands.cs" />
+     <Compile Include="Assets\Scripts\Berserker.cs" />
      <Compile Include="Assets\Scripts\Blade.cs" />
+     <Compile Include="Assets\Scripts\BloodSplatter.cs" />
      <Compile Include="Assets\Scripts\Bow.cs" />
      <Compile Include="Assets\Scripts\Commander.cs" />
      <Compile Include="Assets\Scripts\Crop.cs" />
@@ -65,12 +64,15 @@
      <Compile Include="Assets\Scripts\Grunt.cs" />
      <Compile Include="Assets\Scripts\House.cs" />
      <Compile Include="Assets\Scripts\Interior.cs" />
+     <Compile Include="Assets\Scripts\NPC.cs" />
      <Compile Include="Assets\Scripts\PlayerInputController.cs" />
      <Compile Include="Assets\Scripts\Projectile.cs" />
+     <Compile Include="Assets\Scripts\ScreenFader.cs" />
      <Compile Include="Assets\Scripts\Scythe.cs" />
      <Compile Include="Assets\Scripts\Spear.cs" />
      <Compile Include="Assets\Scripts\Sword.cs" />
      <Compile Include="Assets\Scripts\Unit.cs" />
+     <Compile Include="Assets\Scripts\UnitController.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

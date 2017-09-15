@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Commander : MonoBehaviour {
-	public Unit commanderUnit;
+public class Commander : UnitController {
 	public List<Unit> squad;
 	public List<Vector3> positions;
-	Unit playerUnit;
-	bool playerSeen, positionsAssigned, playerSurrounded, campEstablished = false;
+	bool positionsAssigned, playerSurrounded, campEstablished = false;
 	Vector3 playerOriginalPosition;
-	public int surroundRange, viewDistance, campDistance, commanderDistance, strikeDistance;
+	public int surroundRange, campDistance, commanderDistance, strikeDistance;
 
 	// Use this for initialization
 	void Start () {
+		base.Start ();
 		positions = new List<Vector3> ();
-		playerUnit = GameObject.Find ("PlayerInputController").GetComponent<PlayerInputController> ().playerUnit;
 	}
 	
 	// Update is called once per frame
@@ -43,7 +41,7 @@ public class Commander : MonoBehaviour {
 
 	void MoveSquadWithCommander(){
 		for (int i = 0; i < squad.Count; i++) {
-			squad [i].SetVelocity(commanderUnit.GetVelocity());
+			squad [i].SetVelocity(unit.GetVelocity());
 		}
 	}
 
@@ -66,23 +64,17 @@ public class Commander : MonoBehaviour {
 				unit_alive = true;
 			}
 		}
-		return !unit_alive || commanderUnit.dead;
+		return !unit_alive || unit.dead;
 	}
 	void MaintainCommanderDistance(){
-		if (Vector3.Distance (playerUnit.transform.position, commanderUnit.transform.position) < commanderDistance) {
-			commanderUnit.MoveAway (playerUnit.transform.position);
-		} else if (Vector3.Distance (playerUnit.transform.position, commanderUnit.transform.position) > campDistance) {
-			commanderUnit.MoveToward (playerUnit.transform.position);
-		} else {
-			commanderUnit.SetVelocity (playerUnit.GetVelocity());
+		if (Vector3.Distance (playerUnit.transform.position, unit.transform.position) < commanderDistance) {
+			unit.MoveAway (playerUnit.transform.position);
+		} else if (Vector3.Distance (playerUnit.transform.position, unit.transform.position) > campDistance) {
+			unit.MoveToward (playerUnit.transform.position);
 		}
 	}
 
-	void CheckForPlayer(){
-		if(Vector3.Distance(playerUnit.transform.position, commanderUnit.transform.position) < viewDistance){
-			playerSeen = true;
-		}
-	}
+
 	void AssignPositions(){
 		playerOriginalPosition = playerUnit.transform.position;
 		float degreePortion = 360f/squad.Count;
@@ -126,7 +118,7 @@ public class Commander : MonoBehaviour {
 	}
 
 	void EstablishCamp(){
-		commanderUnit.MoveToward (playerUnit.transform.position);
+		unit.MoveToward (playerUnit.transform.position);
 		MoveSquadWithCommander ();
 
 		for (int i = 0; i < squad.Count; i++) {
@@ -137,19 +129,19 @@ public class Commander : MonoBehaviour {
 			}
 		}
 
-		if (Vector3.Distance (commanderUnit.transform.position, playerUnit.transform.position)<campDistance) {
+		if (Vector3.Distance (unit.transform.position, playerUnit.transform.position)<campDistance) {
 			campEstablished = true;
-			while (commanderUnit.transform.childCount > 0) {
-				foreach (Transform child in commanderUnit.transform) {
+			while (unit.transform.childCount > 0) {
+				foreach (Transform child in unit.transform) {
 					child.parent = this.gameObject.transform;
-					commanderUnit.Stop ();
+					unit.Stop ();
 					StopSquad ();
 				}
 			}
 		}
 	}
 	void Retreat(){
-		commanderUnit.MoveAway (playerUnit.transform.position);
+		unit.MoveAway (playerUnit.transform.position);
 		for (int i = 0; i < squad.Count; i++) {
 			squad [i].MoveAway (playerUnit.transform.position);
 			if (Vector3.Distance (squad [i].transform.position, playerUnit.transform.position) > 100) {
@@ -157,8 +149,8 @@ public class Commander : MonoBehaviour {
 				squad.RemoveAt (i);
 			}
 		}
-		if (Vector3.Distance (commanderUnit.transform.position, playerUnit.transform.position) > 100) {
-			commanderUnit.Die ();
+		if (Vector3.Distance (unit.transform.position, playerUnit.transform.position) > 100) {
+			unit.Die ();
 		}
 	}
 		

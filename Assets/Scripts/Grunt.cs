@@ -2,27 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grunt : MonoBehaviour {
-	public Unit unit;
-	public int strikingDistance;
-	public int seeingDistance;
-	Unit playerUnit;
-	bool spottedPlayer = false;
+public class Grunt : UnitController {
 	// Use this for initialization
 	void Start () {
-		playerUnit = GameObject.Find ("PlayerInputController").GetComponent<PlayerInputController> ().playerUnit;
+		base.Start ();
 	}
 
 	// Update is called once per frame
 	void Update () {
+		base.Update ();
 		if (!unit.dead) {
 			unit.weapon.Aim (playerUnit.transform.position);
-			if(Vector3.Distance(playerUnit.transform.position, unit.transform.position) < seeingDistance){
-				spottedPlayer = true;
-			}if (Vector3.Distance (unit.transform.position, playerUnit.transform.position) < strikingDistance) {
+			if (Vector3.Distance (unit.transform.position, playerUnit.transform.position) < strikingDistance) {
 				unit.AttackWithWeapon ();
 				unit.Stop ();
-			}else if(spottedPlayer){
+			}else if(playerSeen){
 				unit.MoveToward (playerUnit.transform.position);
 			}
 		}

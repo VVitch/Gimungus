@@ -74,7 +74,6 @@ public class Unit : MonoBehaviour {
 	}
 
 	public void Die(){
-		Stop ();
 		GetComponent<SpriteRenderer> ().color = Color.red;
 		dead = true;
 		BoxCollider2D[] myColliders = gameObject.GetComponents<BoxCollider2D>();
@@ -83,7 +82,8 @@ public class Unit : MonoBehaviour {
 			Vector3 u = UBP (colliderPosition, transform.position);
 			Instantiate (blood, transform.position, Quaternion.Euler (new Vector3 (Random.Range (0, 360), 90, 0)));
 		}
-
+		transform.rotation = Quaternion.identity;
+		Stop ();
 	}
 
 	public void AttackWithWeapon(){
