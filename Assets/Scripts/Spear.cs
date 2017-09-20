@@ -27,9 +27,6 @@ public class Spear : Weapon {
 			}
 			swingTracker += Time.deltaTime/timeToStab;
 
-
-		
-
 			if (swingTracker < 1 && !stabComplete) {
 				transform.position = Vector3.Lerp (transform.parent.transform.position, range * UBP (frozenTarget, transform.parent.transform.position) + transform.parent.transform.position, swingTracker);
 				bc.enabled = true;

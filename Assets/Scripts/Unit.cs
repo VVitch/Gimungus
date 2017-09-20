@@ -85,13 +85,11 @@ public class Unit : MonoBehaviour {
 		transform.rotation = Quaternion.identity;
 		Stop ();
 	}
-
 	public void AttackWithWeapon(){
 		if (!dead && weapon != null && weapon.IsRested () && stamina > weapon.staminaCost) {
 			weapon.StartSwing ();
 			stamina -= weapon.staminaCost;
 		}
-
 	}
 	public void TakeDamage(){
 		if (!dead && !invincible) {
@@ -99,7 +97,7 @@ public class Unit : MonoBehaviour {
 			if (health < 1) {
 				Die ();
 			} else {
-				StartCoroutine (InvisiTimer ());
+				//StartCoroutine (InvisiTimer ());
 			}
 		}
 	}

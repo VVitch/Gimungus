@@ -19,7 +19,6 @@ public class DialoguePanel : MonoBehaviour {
 	void Start () {
 		responsePositions = new List<Vector3> ();
 		inPosition = transform.position;
-		Debug.Log (inPosition);
 		responsePositions.Add(responseButtons[0].transform.position);
 		responsePositions.Add(responseButtons[1].transform.position);
 		responsePositions.Add(responseButtons[2].transform.position);

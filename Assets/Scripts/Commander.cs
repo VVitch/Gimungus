@@ -145,7 +145,8 @@ public class Commander : UnitController {
 		for (int i = 0; i < squad.Count; i++) {
 			squad [i].MoveAway (playerUnit.transform.position);
 			if (Vector3.Distance (squad [i].transform.position, playerUnit.transform.position) > 100) {
-				squad [i].Die ();
+				//squad [i].Die ();
+				Destroy(squad[i]);
 				squad.RemoveAt (i);
 			}
 		}

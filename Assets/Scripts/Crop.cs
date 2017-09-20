@@ -6,7 +6,8 @@ public class Crop : MonoBehaviour {
 	public Sprite cutSprite, bushelSprite;
 	public GameObject bushel;
 	bool isCut = false;
-	public float flingTime;
+	public float flingTime, flingDistance;
+
 
 	void OnTriggerEnter2D(Collider2D other) 
 	{ 
@@ -29,7 +30,7 @@ public class Crop : MonoBehaviour {
 
 	public IEnumerator FlingBushel(GameObject bushel, float timeToMove)
 	{
-		Vector3 position = bushel.transform.position + new Vector3 (Random.Range (-5f, 5f), Random.Range (-5, 5), 0);
+		Vector3 position = bushel.transform.position + new Vector3 (Random.Range (-flingDistance, flingDistance+1), Random.Range (-flingDistance, flingDistance+1), 0);
 		var currentPos = bushel.transform.position;
 		var t = 0f;
 		while (t < 1)

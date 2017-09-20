@@ -28,6 +28,8 @@ public class Weapon : MonoBehaviour {
 		rested = false;
 	}
 
+
+
 	// Update is called once per frame
 	virtual protected void Update () {
 		AttackCheck ();
